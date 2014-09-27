@@ -23,7 +23,7 @@ import warnings
 from matplotlib.fontconfig_pattern import parse_fontconfig_pattern
 from matplotlib.colors import is_color_like
 
-#interactive_bk = ['gtk', 'gtkagg', 'gtkcairo', 'qt4agg',
+# interactive_bk = ['gtk', 'gtkagg', 'gtkcairo', 'qt4agg',
 #                  'tkagg', 'wx', 'wxagg', 'cocoaagg', 'webagg']
 # The capitalized forms are needed for ipython at present; this may
 # change for later versions.
@@ -39,6 +39,7 @@ all_backends = interactive_bk + non_interactive_bk
 
 
 class ValidateInStrings:
+
     def __init__(self, key, valid, ignorecase=False):
         'valid is a list of legal strings'
         self.key = key
@@ -155,9 +156,9 @@ validate_qt5 = ValidateInStrings('backend.qt5', ['PyQt5'])
 
 def validate_toolbar(s):
     validator = ValidateInStrings(
-                'toolbar',
-                ['None', 'toolbar2'],
-                ignorecase=True)
+        'toolbar',
+        ['None', 'toolbar2'],
+        ignorecase=True)
     return validator(s)
 
 
@@ -173,6 +174,7 @@ def validate_maskedarray(v):
 
 
 class validate_nseq_float:
+
     def __init__(self, n):
         self.n = n
 
@@ -196,6 +198,7 @@ class validate_nseq_float:
 
 
 class validate_nseq_int:
+
     def __init__(self, n):
         self.n = n
 
@@ -330,9 +333,9 @@ def update_savefig_format(value):
 validate_ps_papersize = ValidateInStrings(
     'ps_papersize',
     ['auto', 'letter', 'legal', 'ledger',
-    'a0', 'a1', 'a2', 'a3', 'a4', 'a5', 'a6', 'a7', 'a8', 'a9', 'a10',
-    'b0', 'b1', 'b2', 'b3', 'b4', 'b5', 'b6', 'b7', 'b8', 'b9', 'b10',
-    ], ignorecase=True)
+     'a0', 'a1', 'a2', 'a3', 'a4', 'a5', 'a6', 'a7', 'a8', 'a9', 'a10',
+     'b0', 'b1', 'b2', 'b3', 'b4', 'b5', 'b6', 'b7', 'b8', 'b9', 'b10',
+     ], ignorecase=True)
 
 
 def validate_ps_distiller(s):
@@ -411,15 +414,16 @@ validate_pgf_texsystem = ValidateInStrings('pgf.texsystem',
                                            ['xelatex', 'lualatex', 'pdflatex'])
 
 validate_movie_writer = ValidateInStrings('animation.writer',
-    ['ffmpeg', 'ffmpeg_file',
-     'avconv', 'avconv_file',
-     'mencoder', 'mencoder_file',
-     'imagemagick', 'imagemagick_file'])
+                                          ['ffmpeg', 'ffmpeg_file',
+                                           'avconv', 'avconv_file',
+                                           'mencoder', 'mencoder_file',
+                                           'imagemagick', 'imagemagick_file'])
 
 validate_movie_frame_fmt = ValidateInStrings('animation.frame_format',
-    ['png', 'jpeg', 'tiff', 'raw', 'rgba'])
+                                             ['png', 'jpeg', 'tiff', 'raw', 'rgba'])
 
-validate_axis_locator = ValidateInStrings('major', ['minor','both','major'])
+validate_axis_locator = ValidateInStrings('major', ['minor', 'both', 'major'])
+
 
 def validate_bbox(s):
     if isinstance(s, six.string_types):
@@ -429,6 +433,7 @@ def validate_bbox(s):
         if s == 'standard':
             return None
         raise ValueError("bbox should be 'tight' or 'standard'")
+
 
 def validate_sketch(s):
     if isinstance(s, six.string_types):
@@ -440,13 +445,17 @@ def validate_sketch(s):
     elif isinstance(s, (list, tuple)):
         result = tuple([float(v) for v in s])
     if len(result) != 3:
-        raise ValueError("path.sketch must be a tuple (scale, length, randomness)")
+        raise ValueError(
+            "path.sketch must be a tuple (scale, length, randomness)")
     return result
 
+
 class ValidateInterval:
+
     """
     Value must be in interval
     """
+
     def __init__(self, vmin, vmax, closedmin=True, closedmax=True):
         self.vmin = vmin
         self.vmax = vmax
@@ -478,7 +487,7 @@ class ValidateInterval:
 # a map from key -> value, converter
 defaultParams = {
     'backend':           ['Agg', validate_backend],  # agg is certainly
-                                                      # present
+    # present
     'backend_fallback':  [True, validate_bool],  # agg is certainly present
     'backend.qt4':       ['PyQt4', validate_qt4],
     'backend.qt5':       ['PyQt5', validate_qt5],
@@ -499,7 +508,8 @@ defaultParams = {
     'lines.linewidth':       [1.0, validate_float],  # line width in points
     'lines.linestyle':       ['-', six.text_type],             # solid line
     'lines.color':           ['b', validate_color],  # blue
-    'lines.marker':          ['None', six.text_type],     # black
+    'lines.marker':          ['None', six.text_type],
+    'lines.markerfacecolor':  ['b', validate_color],
     'lines.markeredgewidth': [0.5, validate_float],
     'lines.markersize':      [6, validate_float],    # markersize, in points
     'lines.antialiased':     [True, validate_bool],  # antialised (no jaggies)
@@ -508,15 +518,16 @@ defaultParams = {
     'lines.dash_capstyle':   ['butt', validate_capstyle],
     'lines.solid_capstyle':  ['projecting', validate_capstyle],
 
-    ## patch props
+    # patch props
     'patch.linewidth':   [1.0, validate_float],  # line width in points
     'patch.edgecolor':   ['k', validate_color],  # black
     'patch.facecolor':   ['b', validate_color],  # blue
     'patch.antialiased': [True, validate_bool],  # antialised (no jaggies)
 
 
-    ## font props
-    'font.family':     ['sans-serif', validate_stringlist],  # used by text object
+    # font props
+    # used by text object
+    'font.family':     ['sans-serif', validate_stringlist],
     'font.style':      ['normal', six.text_type],
     'font.variant':    ['normal', six.text_type],
     'font.stretch':    ['normal', six.text_type],
@@ -564,13 +575,14 @@ defaultParams = {
 
     'image.aspect':        ['equal', validate_aspect],  # equal, auto, a number
     'image.interpolation': ['bilinear', six.text_type],
-    'image.cmap':          ['jet', six.text_type],        # one of gray, jet, etc
+    # one of gray, jet, etc
+    'image.cmap':          ['jet', six.text_type],
     'image.lut':           [256, validate_int],  # lookup table
     'image.origin':        ['upper', six.text_type],  # lookup table
     'image.resample':      [False, validate_bool],
 
     'contour.negative_linestyle': ['dashed',
-                                    validate_negative_linestyle_legacy],
+                                   validate_negative_linestyle_legacy],
 
     # axes props
     'axes.axisbelow':        [False, validate_bool],
@@ -580,22 +592,25 @@ defaultParams = {
     'axes.linewidth':        [1.0, validate_float],  # edge linewidth
     'axes.titlesize':        ['large', validate_fontsize],  # fontsize of the
                                                             # axes title
-    'axes.titleweight':      ['normal', six.text_type],  # font weight of axes title
+    # font weight of axes title
+    'axes.titleweight':      ['normal', six.text_type],
     'axes.grid':             [False, validate_bool],   # display grid or not
-    'axes.grid.which':       ['major', validate_axis_locator],  # set wether the gid are by
-                                                                # default draw on 'major'
-                                                                # 'minor' or 'both' kind of
-                                                                # axis locator
+    # set wether the gid are by
+    'axes.grid.which':       ['major', validate_axis_locator],
+    # default draw on 'major'
+    # 'minor' or 'both' kind of
+    # axis locator
     'axes.labelsize':        ['medium', validate_fontsize],  # fontsize of the
                                                              # x any y labels
-    'axes.labelweight':      ['normal', six.text_type],  # fontsize of the x any y labels
+    # fontsize of the x any y labels
+    'axes.labelweight':      ['normal', six.text_type],
     'axes.labelcolor':       ['k', validate_color],    # color of axis label
     'axes.formatter.limits': [[-7, 7], validate_nseq_int(2)],
-                               # use scientific notation if log10
-                               # of the axis range is smaller than the
-                               # first or larger than the second
+    # use scientific notation if log10
+    # of the axis range is smaller than the
+    # first or larger than the second
     'axes.formatter.use_locale': [False, validate_bool],
-                               # Use the current locale to format ticks
+    # Use the current locale to format ticks
     'axes.formatter.use_mathtext': [False, validate_bool],
     'axes.formatter.useoffset': [True, validate_bool],
     'axes.unicode_minus': [True, validate_bool],
@@ -607,13 +622,13 @@ defaultParams = {
                                          closedmax=True)],  # margin added to xaxis
     'axes.ymargin': [0, ValidateInterval(0, 1,
                                          closedmin=True,
-                                         closedmax=True)],# margin added to yaxis
+                                         closedmax=True)],  # margin added to yaxis
 
     'polaraxes.grid': [True, validate_bool],  # display polar grid or
-                                                     # not
+    # not
     'axes3d.grid': [True, validate_bool],  # display 3d grid
 
-    #legend properties
+    # legend properties
     'legend.fancybox': [False, validate_bool],
 
     # at some point, legend.loc should be changed to 'best'
@@ -627,15 +642,15 @@ defaultParams = {
     # the number of points in the legend line for scatter
     'legend.scatterpoints': [3, validate_int],
     'legend.fontsize': ['large', validate_fontsize],
-     # the relative size of legend markers vs. original
+    # the relative size of legend markers vs. original
     'legend.markerscale': [1.0, validate_float],
     'legend.shadow': [False, validate_bool],
-     # whether or not to draw a frame around legend
+    # whether or not to draw a frame around legend
     'legend.frameon': [True, validate_bool],
-     # alpha value of the legend frame
+    # alpha value of the legend frame
     'legend.framealpha': [1.0, validate_float],
 
-    ## the following dimensions are in fraction of the font size
+    # the following dimensions are in fraction of the font size
     'legend.borderpad': [0.4, validate_float],  # units are fontsize
     # the vertical space between the legend entries
     'legend.labelspacing': [0.5, validate_float],
@@ -653,7 +668,7 @@ defaultParams = {
     'legend.markerscale': [1.0, validate_float],
     'legend.shadow': [False, validate_bool],
 
-    ## tick properties
+    # tick properties
     'xtick.major.size':  [4, validate_float],    # major xtick size in points
     'xtick.minor.size':  [2, validate_float],    # minor xtick size in points
     'xtick.major.width': [0.5, validate_float],  # major xtick width in points
@@ -663,7 +678,8 @@ defaultParams = {
     'xtick.color':       ['k', validate_color],  # color of the xtick labels
     # fontsize of the xtick labels
     'xtick.labelsize':   ['medium', validate_fontsize],
-    'xtick.direction':   ['in', six.text_type],            # direction of xticks
+    # direction of xticks
+    'xtick.direction':   ['in', six.text_type],
 
     'ytick.major.size':  [4, validate_float],     # major ytick size in points
     'ytick.minor.size':  [2, validate_float],     # minor ytick size in points
@@ -674,7 +690,8 @@ defaultParams = {
     'ytick.color':       ['k', validate_color],   # color of the ytick labels
     # fontsize of the ytick labels
     'ytick.labelsize':   ['medium', validate_fontsize],
-    'ytick.direction':   ['in', six.text_type],            # direction of yticks
+    # direction of yticks
+    'ytick.direction':   ['in', six.text_type],
 
     'grid.color':        ['k', validate_color],       # grid color
     'grid.linestyle':    [':', six.text_type],       # dotted
@@ -682,7 +699,7 @@ defaultParams = {
     'grid.alpha':        [1.0, validate_float],
 
 
-    ## figure props
+    # figure props
     # figure size in inches: width by height
     'figure.figsize':    [[8.0, 6.0], validate_nseq_float(2)],
     'figure.dpi':        [80, validate_float],   # DPI
@@ -693,25 +710,25 @@ defaultParams = {
     'figure.max_open_warning': [20, validate_int],
 
     'figure.subplot.left': [0.125, ValidateInterval(0, 1, closedmin=True,
-                                                       closedmax=True)],
+                                                    closedmax=True)],
     'figure.subplot.right': [0.9, ValidateInterval(0, 1, closedmin=True,
-                                                     closedmax=True)],
+                                                   closedmax=True)],
     'figure.subplot.bottom': [0.1, ValidateInterval(0, 1, closedmin=True,
-                                                     closedmax=True)],
+                                                    closedmax=True)],
     'figure.subplot.top': [0.9, ValidateInterval(0, 1, closedmin=True,
-                                                     closedmax=True)],
+                                                 closedmax=True)],
     'figure.subplot.wspace': [0.2, ValidateInterval(0, 1, closedmin=True,
-                                                     closedmax=False)],
+                                                    closedmax=False)],
     'figure.subplot.hspace': [0.2, ValidateInterval(0, 1, closedmin=True,
-                                                     closedmax=False)],
+                                                    closedmax=False)],
 
-    ## Saving figure's properties
+    # Saving figure's properties
     'savefig.dpi':         [100, validate_float],   # DPI
     'savefig.facecolor':   ['w', validate_color],  # facecolor; white
     'savefig.edgecolor':   ['w', validate_color],  # edgecolor; white
     'savefig.frameon':     [True, validate_bool],
     'savefig.orientation': ['portrait', validate_orientation],  # edgecolor;
-                                                                 #white
+    # white
     'savefig.jpeg_quality': [95, validate_int],
     # what to add to extensionless filenames
     'savefig.extension':  ['png', deprecate_savefig_extension],
@@ -796,7 +813,7 @@ defaultParams = {
     # Path to FFMPEG binary. If just binary name, subprocess uses $PATH.
     'animation.ffmpeg_path':  ['ffmpeg', six.text_type],
 
-    ## Additional arguments for ffmpeg movie writer (using pipes)
+    # Additional arguments for ffmpeg movie writer (using pipes)
     'animation.ffmpeg_args':   ['', validate_stringlist],
     # Path to AVConv binary. If just binary name, subprocess uses $PATH.
     'animation.avconv_path':   ['avconv', six.text_type],
@@ -806,9 +823,9 @@ defaultParams = {
     'animation.mencoder_path': ['mencoder', six.text_type],
     # Additional arguments for mencoder movie writer (using pipes)
     'animation.mencoder_args': ['', validate_stringlist],
-     # Path to convert binary. If just binary name, subprocess uses $PATH
+    # Path to convert binary. If just binary name, subprocess uses $PATH
     'animation.convert_path':  ['convert', six.text_type],
-     # Additional arguments for mencoder movie writer (using pipes)
+    # Additional arguments for mencoder movie writer (using pipes)
 
     'animation.convert_args':  ['', validate_stringlist]}
 
